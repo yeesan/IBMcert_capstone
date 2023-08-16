@@ -64,7 +64,14 @@ def get_pie_chart(entered_site):
         title='pie chart by Launch Site')
         return dcc.Graph(figure=fig)
 
-    #else:
+    else:
+        data = filtered_df.loc[filtered_df['Launch Site']== entered_site]
+        data = data.groupby(['class'])['Launch Site'].count().reset_index() 
+        data = data.rename(columns={"Launch Site":"count"})
+        fig = px.pie(data, values='count', 
+        names='class', 
+        title=entered_site)
+        return dcc.Graph(figure=fig)
 
 
 # Run the app

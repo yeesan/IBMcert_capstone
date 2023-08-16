@@ -58,7 +58,7 @@ def get_pie_chart(entered_site):
     filtered_df = spacex_df[['Launch Site', 'class']] # filtered only necessary data
 
     if entered_site == 'ALL':
-        data = df.groupby(['Month','CancellationCode'])['Flights'].sum().reset_index()
+        data = filtered_df.groupby(['Launch Site'])['class'].sum().reset_index()
         fig = px.pie(data, values='class', 
         names='Launch Site', 
         title='pie chart by Launch Site')

@@ -40,10 +40,10 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                 # TASK 3: Add a slider to select payload range
                                 dcc.RangeSlider(id='id',
                                                 min=min_payload, max=max_payload, step=1000,
-                                                value=[min_payload, max_payload])
+                                                value=[min_payload, max_payload]),
 
                                 # TASK 4: Add a scatter chart to show the correlation between payload and launch success
-                                #html.Div(dcc.Graph(id='success-payload-scatter-chart')),
+                                html.Div([], id='success-payload-scatter-chart')
                                 ])
 
 # TASK 2:
@@ -53,7 +53,12 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 # Add a callback function for `site-dropdown` and `payload-slider` as inputs, `success-payload-scatter-chart` as output
 
 @app.callback(Output(component_id='success-pie-chart', component_property='children'),
-              Input(component_id='site-dropdown', component_property='value'))
+                #Output(component_id='success-payload-scatter-chart', component_property='children')
+                 
+              Input(component_id='site-dropdown', component_property='value'), 
+              #Input(component_id="payload-slider", component_property='value')
+              
+              )
 def get_pie_chart(entered_site):
     
     

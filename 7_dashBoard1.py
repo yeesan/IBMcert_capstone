@@ -1,3 +1,9 @@
+'''
+This project was ran in Skills Networks Labs IDE
+install packages: python3.8 -m pip install pandas dash
+get dataset : wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DS0321EN-SkillsNetwork/datasets/spacex_launch_dash.csv"
+run : python3.8 spacex_dash_app.py
+'''
 # Import required libraries
 import pandas as pd
 import dash

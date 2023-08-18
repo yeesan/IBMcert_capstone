@@ -38,7 +38,7 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 
                                 html.P("Payload range (Kg):"),
                                 # TASK 3: Add a slider to select payload range
-                                dcc.RangeSlider(id='id',
+                                dcc.RangeSlider(id='payload-slider',
                                                 min=min_payload, max=max_payload, step=1000,
                                                 value=[min_payload, max_payload]),
 
@@ -53,15 +53,10 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 # Add a callback function for `site-dropdown` and `payload-slider` as inputs, `success-payload-scatter-chart` as output
 
 @app.callback(Output(component_id='success-pie-chart', component_property='children'),
-                #Output(component_id='success-payload-scatter-chart', component_property='children')
-                 
               Input(component_id='site-dropdown', component_property='value'), 
-              #Input(component_id="payload-slider", component_property='value')
-              
               )
 def get_pie_chart(entered_site):
-    
-    
+        
     filtered_df = spacex_df[['Launch Site', 'class']] # filtered only necessary data
 
     if entered_site == 'ALL':
@@ -79,6 +74,19 @@ def get_pie_chart(entered_site):
         names='class', 
         title=entered_site)
         return dcc.Graph(figure=fig)
+
+@app.callback(Output(component_id='success-payload-scatter-chart', component_property='children'),
+              [Input(component_id='site-dropdown', component_property='value'), 
+              Input(component_id="payload-slider", component_property="value")]              
+              )
+def get_scatter_chart(entered_site, entered_payload):
+
+    filtered_df2 = spacex_df[['Launch Site', 'Payload Mass (kg)', 'Booster Version Category', 'class']] # filtered only necessary data
+    if entered_site == 'ALL':
+        fig2 = px.scatter(filtered_df2, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category')
+        return dcc.Graph(figure=fig2)
+
+
 
 
 # Run the app

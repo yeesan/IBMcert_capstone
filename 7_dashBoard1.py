@@ -80,11 +80,19 @@ def get_pie_chart(entered_site):
               Input(component_id="payload-slider", component_property="value")]              
               )
 def get_scatter_chart(entered_site, entered_payload):
-
+    
     filtered_df2 = spacex_df[['Launch Site', 'Payload Mass (kg)', 'Booster Version Category', 'class']] # filtered only necessary data
+    lw, hi = entered_payload
+    
     if entered_site == 'ALL':
-        fig2 = px.scatter(filtered_df2, x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category')
+        mask = (filtered_df2['Payload Mass (kg)']>=lw)& (filtered_df2['Payload Mass (kg)'] <= hi)
+        fig2 = px.scatter(filtered_df2[mask], x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category')
         return dcc.Graph(figure=fig2)
+    else:
+        data2 = filtered_df2.loc[filtered_df2['Launch Site'] == entered_site].reset_index()
+        mask = (data2['Payload Mass (kg)']>=lw)& (data2['Payload Mass (kg)'] <= hi)
+        fig2 = px.scatter(data2[mask], x = 'Payload Mass (kg)', y = 'class', color = 'Booster Version Category')
+        return dcc.Graph(figure=fig2) 
 
 
 
